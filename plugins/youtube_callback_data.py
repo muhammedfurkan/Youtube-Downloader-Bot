@@ -15,6 +15,11 @@ from PIL import Image
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 
+
+if not os.path.exists("./app/downloads/"):
+  os.makedirs("./app/downloads/")
+
+
 @Client.on_callback_query()
 async def catch_youtube_fmtid(c, m):
     cb_data = m.data
@@ -47,10 +52,10 @@ async def catch_youtube_dldata(c, q):
     # Callback Data Check
     yturl = cb_data.split("||")[-1]
     format_id = cb_data.split("||")[-2]
-    thumb_image_path = "/app/downloads" + \
+    thumb_image_path = "./app/downloads" + \
         "/" + str(q.message.chat.id) + ".jpg"
     if not os.path.exists(thumb_image_path):
-      os.makedirs("/app/downloads/")
+      os.makedirs("./app/downloads/")
     print(thumb_image_path)
     if os.path.exists(thumb_image_path):
         
