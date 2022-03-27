@@ -54,8 +54,8 @@ async def catch_youtube_dldata(c, q):
     format_id = cb_data.split("||")[-2]
     thumb_image_path = "./app/downloads" + \
         "/" + str(q.message.chat.id) + ".jpg"
-    if not os.path.exists(thumb_image_path):
-      os.makedirs("./app/downloads/")
+#     if not os.path.exists(thumb_image_path):
+#       os.makedirs("./app/downloads/")
     print(thumb_image_path)
     if os.path.exists(thumb_image_path):
         
