@@ -114,15 +114,17 @@ async def catch_youtube_dldata(c, q):
         "--hls-prefer-ffmpeg", yturl]
 
     loop = asyncio.get_event_loop()
-    relevant_path = "./app/downloads/"
-    file_names = [fn for fn in os.listdir(relevant_path) if any(fn.endswith(ext) for ext in included_extensions)]
-    img_extensions = ["webp", "jpg", "jpeg"]
-    img_filenames = [fn_img for fn_img in os.listdir(relevant_path) if any(fn_img.endswith(ext_img) for ext_img in img_extensions)]
-    out_folder = filepath
-    thumb_image = out_folder + img_filenames[0]
+    
 
     med = None
     if cb_data.startswith("audio"):
+        included_extensions = ["mp3"]
+        relevant_path = "./app/downloads/"
+        file_names = [fn for fn in os.listdir(relevant_path) if any(fn.endswith(ext) for ext in included_extensions)]
+        img_extensions = ["webp", "jpg", "jpeg"]
+        img_filenames = [fn_img for fn_img in os.listdir(relevant_path) if any(fn_img.endswith(ext_img) for ext_img in img_extensions)]
+        out_folder = filepath
+        thumb_image = out_folder + img_filenames[0]
         filename = await downloadaudiocli(audio_command)
         med = InputMediaAudio(
             media=filename,
@@ -132,6 +134,13 @@ async def catch_youtube_dldata(c, q):
         )
 
     if cb_data.startswith("video"):
+        included_extensions = ["mp4"]
+        relevant_path = "./app/downloads/"
+        file_names = [fn for fn in os.listdir(relevant_path) if any(fn.endswith(ext) for ext in included_extensions)]
+        img_extensions = ["webp", "jpg", "jpeg"]
+        img_filenames = [fn_img for fn_img in os.listdir(relevant_path) if any(fn_img.endswith(ext_img) for ext_img in img_extensions)]
+        out_folder = filepath
+        thumb_image = out_folder + img_filenames[0]
         filename = await downloadvideocli(video_command)
         dur = round(duration(filename))
         med = InputMediaVideo(
