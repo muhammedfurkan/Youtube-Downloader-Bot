@@ -85,6 +85,9 @@ async def catch_youtube_dldata(c, q):
         InlineKeyboardMarkup([[InlineKeyboardButton("Downloading...", callback_data="down")]]))
     filepath = os.path.join(userdir, filext)
     # await q.edit_message_reply_markup([[InlineKeyboardButton("Processing..")]])
+    out_folder = "./app/downloads/"
+    if not os.path.isdir(out_folder):
+        os.makedirs(out_folder)
     
     audio_command = [
         "youtube-dl",
@@ -95,7 +98,7 @@ async def catch_youtube_dldata(c, q):
         "--embed-thumbnail",
         "--write-thumbnail",
         "--audio-quality", format_id,
-        "-o", filepath,
+        "--output", out_folder+'%(title)s.mp4,
         yturl,
 
     ]
@@ -107,7 +110,7 @@ async def catch_youtube_dldata(c, q):
         "--embed-thumbnail",
         "--write-thumbnail",
         "-f", f"{format_id}+bestaudio",
-        "-o", filepath,
+        "--output", out_folder+'%(title)s.mp4,
         "--hls-prefer-ffmpeg", yturl]
 
     loop = asyncio.get_event_loop()
