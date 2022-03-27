@@ -123,7 +123,7 @@ async def catch_youtube_dldata(c, q):
         file_names = [fn for fn in os.listdir(relevant_path) if any(fn.endswith(ext) for ext in included_extensions)]
         img_extensions = ["webp", "jpg", "jpeg"]
         img_filenames = [fn_img for fn_img in os.listdir(relevant_path) if any(fn_img.endswith(ext_img) for ext_img in img_extensions)]
-        out_folder = filepath
+        out_folder = "./app/downloads/"
         thumb_image = out_folder + img_filenames[0]
         filename = await downloadaudiocli(audio_command)
         med = InputMediaAudio(
@@ -139,7 +139,7 @@ async def catch_youtube_dldata(c, q):
         file_names = [fn for fn in os.listdir(relevant_path) if any(fn.endswith(ext) for ext in included_extensions)]
         img_extensions = ["webp", "jpg", "jpeg"]
         img_filenames = [fn_img for fn_img in os.listdir(relevant_path) if any(fn_img.endswith(ext_img) for ext_img in img_extensions)]
-        out_folder = filepath
+        out_folder = "./app/downloads/"
         thumb_image = out_folder + img_filenames[0]
         filename = await downloadvideocli(video_command)
         dur = round(duration(filename))
