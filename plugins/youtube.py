@@ -8,7 +8,8 @@ import os
 from PIL import Image
 
 ytregex = r"^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$"
-
+if not os.path.exists("./app/downloads/"):
+  os.makedirs("./app/downloads/")
 
 @Client.on_message(Filters.regex(ytregex))
 async def ytdl(_, message):
