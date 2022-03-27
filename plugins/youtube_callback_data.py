@@ -98,7 +98,7 @@ async def catch_youtube_dldata(c, q):
         "--embed-thumbnail",
         "--write-thumbnail",
         "--audio-quality", format_id,
-        "--output", out_folder+'%(title)s.mp3',
+        "--output", "./app/downloads/"+'%(title)s.mp3',
         yturl,
 
     ]
@@ -110,7 +110,7 @@ async def catch_youtube_dldata(c, q):
         "--embed-thumbnail",
         "--write-thumbnail",
         "-f", f"{format_id}+bestaudio",
-        "--output", out_folder+'%(title)s.mp4',
+        "--output", "./app/downloads/"+'%(title)s.mp4',
         "--hls-prefer-ffmpeg", yturl]
 
     loop = asyncio.get_event_loop()
