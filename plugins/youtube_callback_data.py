@@ -80,13 +80,15 @@ async def catch_youtube_dldata(c, q):
         InlineKeyboardMarkup([[InlineKeyboardButton("Downloading...", callback_data="down")]]))
     filepath = os.path.join(userdir, filext)
     # await q.edit_message_reply_markup([[InlineKeyboardButton("Processing..")]])
-
+    
     audio_command = [
         "youtube-dl",
         "-c",
         "--prefer-ffmpeg",
         "--extract-audio",
         "--audio-format", "mp3",
+        "--embed-thumbnail",
+        "--write-thumbnail",
         "--audio-quality", format_id,
         "-o", filepath,
         yturl,
@@ -97,18 +99,25 @@ async def catch_youtube_dldata(c, q):
         "youtube-dl",
         "-c",
         "--embed-subs",
+        "--embed-thumbnail",
+        "--write-thumbnail",
         "-f", f"{format_id}+bestaudio",
         "-o", filepath,
         "--hls-prefer-ffmpeg", yturl]
 
     loop = asyncio.get_event_loop()
+    relevant_path = "./app/downloads/"
+    file_names = [fn for fn in os.listdir(relevant_path) if any(fn.endswith(ext) for ext in included_extensions)]
+    img_extensions = ["webp", "jpg", "jpeg"]
+    img_filenames = [fn_img for fn_img in os.listdir(relevant_path) if any(fn_img.endswith(ext_img) for ext_img in img_extensions)]
+    thumb_image = out_folder + img_filenames[0]
 
     med = None
     if cb_data.startswith("audio"):
         filename = await downloadaudiocli(audio_command)
         med = InputMediaAudio(
             media=filename,
-            thumb=thumb_image_path,
+            thumb=thumb_image,
             caption=os.path.basename(filename),
             title=os.path.basename(filename)
         )
@@ -121,7 +130,7 @@ async def catch_youtube_dldata(c, q):
             duration=dur,
             width=width,
             height=height,
-            thumb=thumb_image_path,
+            thumb=thumb_image,
             caption=os.path.basename(filename),
             supports_streaming=True
         )
@@ -130,7 +139,7 @@ async def catch_youtube_dldata(c, q):
         filename = await downloadaudiocli(audio_command)
         med = InputMediaDocument(
             media=filename,
-            thumb=thumb_image_path,
+            thumb=thumb_image,
             caption=os.path.basename(filename),
         )
 
@@ -139,7 +148,7 @@ async def catch_youtube_dldata(c, q):
         dur = round(duration(filename))
         med = InputMediaDocument(
             media=filename,
-            thumb=thumb_image_path,
+            thumb=thumb_image,
             caption=os.path.basename(filename),
         )
     if med:
@@ -162,6 +171,6 @@ async def send_file(c, q, med, filename):
     finally:
         try:
             os.remove(filename)
-            os.remove(thumb_image_path)
+            os.remove(thumb_image)
         except:
             pass
