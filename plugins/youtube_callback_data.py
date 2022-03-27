@@ -41,6 +41,8 @@ async def catch_youtube_fmtid(c, m):
 @Client.on_callback_query()
 async def catch_youtube_dldata(c, q):
     cb_data = q.data.strip()
+    width = 0
+    height = 0
     #print(q.message.chat.id)
     # Callback Data Check
     yturl = cb_data.split("||")[-1]
@@ -51,8 +53,7 @@ async def catch_youtube_dldata(c, q):
       os.makedirs("/app/downloads/")
     print(thumb_image_path)
     if os.path.exists(thumb_image_path):
-        width = 0
-        height = 0
+        
         metadata = extractMetadata(createParser(thumb_image_path))
         #print(metadata)
         if metadata.has("width"):
